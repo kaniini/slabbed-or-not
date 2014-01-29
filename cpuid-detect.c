@@ -72,3 +72,18 @@ static struct test_impl kvm_impl = {
 	.explain = kvm_explain,
 };
 
+static bool bhyve_check(void)
+{
+	return cpuid_scan("bhyve bhyve ");
+}
+
+static void bhyve_explain(void)
+{
+	printf("Hypervisor: bhyve\n");
+}
+
+static struct test_impl bhyve_impl = {
+	.hv_name = "bhyve",
+	.check = bhyve_check,
+	.explain = bhyve_explain,
+};
