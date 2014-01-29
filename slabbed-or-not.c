@@ -25,6 +25,9 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <setjmp.h>
+#include <signal.h>
+#include <string.h>
 
 struct test_impl {
 	const char *hv_name;
@@ -34,10 +37,13 @@ struct test_impl {
 
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 
+#include "xen-detect.c"
+
 /*****************************************************************************************
  * testing framework                                                                     *
  *****************************************************************************************/
-struct test_impl test_impls[] = {
+struct test_impl *test_impls[] = {
+	&xen_impl,
 };
 
 static struct test_impl *do_checks(void)
@@ -46,8 +52,8 @@ static struct test_impl *do_checks(void)
 
 	for (i = 0; i < ARRAY_SIZE(test_impls); i++)
 	{
-		if (test_impls[i].check())
-			return &test_impls[i];
+		if (test_impls[i]->check())
+			return test_impls[i];
 	}
 
 	return NULL;
