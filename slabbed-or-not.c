@@ -38,12 +38,16 @@ struct test_impl {
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 
 #include "xen-detect.c"
+#include "cpuid-detect.c"
 
 /*****************************************************************************************
  * testing framework                                                                     *
  *****************************************************************************************/
 struct test_impl *test_impls[] = {
 	&xen_impl,
+	&vmware_impl,
+	&hyperv_impl,
+	&kvm_impl,
 };
 
 static struct test_impl *do_checks(void)
