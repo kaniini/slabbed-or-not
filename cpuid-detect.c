@@ -29,15 +29,9 @@ static bool vmware_check(void)
 	return cpuid_scan("VMwareVMware");
 }
 
-static void vmware_explain(void)
-{
-	printf("Hypervisor: VMware\n");
-}
-
 static struct test_impl vmware_impl = {
 	.hv_name = "VMware",
 	.check = vmware_check,
-	.explain = vmware_explain,
 };
 
 static bool hyperv_check(void)
@@ -45,15 +39,9 @@ static bool hyperv_check(void)
 	return cpuid_scan("Microsoft Hv");
 }
 
-static void hyperv_explain(void)
-{
-	printf("Hypervisor: Microsoft Hyper-V\n");
-}
-
 static struct test_impl hyperv_impl = {
-	.hv_name = "Hyper-V",
+	.hv_name = "Microsoft Hyper-V",
 	.check = hyperv_check,
-	.explain = hyperv_explain,
 };
 
 static bool kvm_check(void)
@@ -61,15 +49,9 @@ static bool kvm_check(void)
 	return cpuid_scan("KVMKVMKVM");
 }
 
-static void kvm_explain(void)
-{
-	printf("Hypervisor: KVM\n");
-}
-
 static struct test_impl kvm_impl = {
 	.hv_name = "KVM",
 	.check = kvm_check,
-	.explain = kvm_explain,
 };
 
 static bool bhyve_check(void)
@@ -77,13 +59,7 @@ static bool bhyve_check(void)
 	return cpuid_scan("bhyve bhyve ");
 }
 
-static void bhyve_explain(void)
-{
-	printf("Hypervisor: bhyve\n");
-}
-
 static struct test_impl bhyve_impl = {
 	.hv_name = "bhyve",
 	.check = bhyve_check,
-	.explain = bhyve_explain,
 };

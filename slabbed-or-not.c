@@ -74,7 +74,10 @@ int main(int argc, const char *argv[])
 		return EXIT_SUCCESS;
 	}
 
-	impl->explain();
+	if (impl->explain != NULL)
+		impl->explain();
+	else
+		printf("Hypervisor: %s\n", impl->hv_name);
 
 	return EXIT_FAILURE;
 }
