@@ -77,6 +77,7 @@ static void xen_explain(void)
 static bool xen_check_outer(void)
 {
 	struct sigaction act, oldact;
+	bool ret;
 
 	/* first check for HVM... */
 	xen_pv_context = 0;
@@ -95,11 +96,12 @@ static bool xen_check_outer(void)
 
 	/* actually do the check now */
 	xen_pv_context = 1;
-	if (xen_check_inner())
-		return true;
+	ret = xen_check_inner();
 
 	/* restore old SIGILL handler */
 	sigaction(SIGILL, &oldact, NULL);
+
+	return ret;
 }
 
 static struct test_impl xen_impl = {
