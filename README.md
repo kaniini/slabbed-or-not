@@ -23,8 +23,8 @@ Version: 4.3
 ## what it can detect
 
 * Xen
-** PV or HVM mode
-** Hypervisor version
+  * PV or HVM mode
+  * Hypervisor version
 * VMware
 * Hyper-V
 * KVM
