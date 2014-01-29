@@ -12,7 +12,8 @@ hide it, by either obfuscating cpuinfo or other sloppyness.
 
 Just download the source and go, basically.  You'll need GCC installed, of course.
 
-```kaniini@localhost ~/slabbed-or-not> make
+```shell
+kaniini@localhost ~/slabbed-or-not> make
 gcc -o slabbed-or-not slabbed-or-not.c
 kaniini@localhost ~/slabbed-or-not> ./slabbed-or-not
 Hypervisor: Xen PV
