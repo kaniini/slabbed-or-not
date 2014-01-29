@@ -86,7 +86,10 @@ static bool xen_check_outer(void)
 
 	/* not HVM... catch SIGILL in case we're running outside Xen */
 	if (setjmp(xen_sigill_jmp))
+	{
+		xen_pv_context = 0;
 		return false;
+	}
 
 	memset(&act, 0, sizeof act);
 	act.sa_handler = xen_sigill_handler;
