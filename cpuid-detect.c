@@ -24,16 +24,6 @@ static bool cpuid_scan(char *sigbase)
 	return false;
 }
 
-static bool vmware_check(void)
-{
-	return cpuid_scan("VMwareVMware");
-}
-
-static struct test_impl vmware_impl = {
-	.hv_name = "VMware",
-	.check = vmware_check,
-};
-
 static bool hyperv_check(void)
 {
 	return cpuid_scan("Microsoft Hv");

@@ -29,6 +29,7 @@
 #include <signal.h>
 #include <string.h>
 #include <unistd.h>
+#include <limits.h>
 
 struct test_impl {
 	const char *hv_name;
@@ -43,6 +44,7 @@ struct test_impl {
  *****************************************************************************************/
 #include "xen-detect.c"
 #include "cpuid-detect.c"
+#include "vmware-detect.c"
 
 /*****************************************************************************************
  * container checker engines                                                             *
