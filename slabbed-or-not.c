@@ -43,7 +43,7 @@ struct test_impl {
 /*****************************************************************************************
  * testing framework                                                                     *
  *****************************************************************************************/
-struct test_impl *test_impls[] = {
+struct test_impl *hv_test_impls[] = {
 	&xen_impl,
 	&vmware_impl,
 	&hyperv_impl,
@@ -51,14 +51,14 @@ struct test_impl *test_impls[] = {
 	&bhyve_impl,
 };
 
-static struct test_impl *do_checks(void)
+static struct test_impl *do_hv_checks(void)
 {
 	size_t i;
 
-	for (i = 0; i < ARRAY_SIZE(test_impls); i++)
+	for (i = 0; i < ARRAY_SIZE(hv_test_impls); i++)
 	{
-		if (test_impls[i]->check())
-			return test_impls[i];
+		if (hv_test_impls[i]->check())
+			return hv_test_impls[i];
 	}
 
 	return NULL;
@@ -68,7 +68,7 @@ int main(int argc, const char *argv[])
 {
 	struct test_impl *impl;
 
-	impl = do_checks();
+	impl = do_hv_checks();
 	if (impl == NULL)
 	{
 		printf("Not running under any known hypervisor type\n");
