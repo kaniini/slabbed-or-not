@@ -28,6 +28,7 @@
 #include <setjmp.h>
 #include <signal.h>
 #include <string.h>
+#include <unistd.h>
 
 struct test_impl {
 	const char *hv_name;
@@ -37,12 +38,33 @@ struct test_impl {
 
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 
+/*****************************************************************************************
+ * hypervisor checker engines                                                            *
+ *****************************************************************************************/
 #include "xen-detect.c"
 #include "cpuid-detect.c"
 
 /*****************************************************************************************
+ * container checker engines                                                             *
+ *****************************************************************************************/
+#include "openvz-detect.c"
+
+/*****************************************************************************************
  * testing framework                                                                     *
  *****************************************************************************************/
+static struct test_impl *do_tests(struct test_impl **impls, size_t impl_count)
+{
+	size_t i;
+
+	for (i = 0; i < impl_count; i++)
+	{
+		if (impls[i]->check())
+			return impls[i];
+	}
+
+	return NULL;
+}
+
 struct test_impl *hv_test_impls[] = {
 	&xen_impl,
 	&vmware_impl,
@@ -51,34 +73,36 @@ struct test_impl *hv_test_impls[] = {
 	&bhyve_impl,
 };
 
-static struct test_impl *do_hv_checks(void)
-{
-	size_t i;
-
-	for (i = 0; i < ARRAY_SIZE(hv_test_impls); i++)
-	{
-		if (hv_test_impls[i]->check())
-			return hv_test_impls[i];
-	}
-
-	return NULL;
-}
+struct test_impl *ctr_test_impls[] = {
+	&openvz_impl,
+};
 
 int main(int argc, const char *argv[])
 {
-	struct test_impl *impl;
+	struct test_impl *hv, *ctr;
 
-	impl = do_hv_checks();
-	if (impl == NULL)
+	ctr = do_tests(ctr_test_impls, ARRAY_SIZE(ctr_test_impls));
+	if (ctr != NULL)
+	{
+		if (ctr->explain != NULL)
+			ctr->explain();
+		else
+			printf("Container: %s\n", ctr->hv_name);
+	}
+	else
+		printf("Not running under any known container type\n");
+
+	hv = do_tests(hv_test_impls, ARRAY_SIZE(hv_test_impls));
+	if (hv == NULL)
 	{
 		printf("Not running under any known hypervisor type\n");
 		return EXIT_SUCCESS;
 	}
 
-	if (impl->explain != NULL)
-		impl->explain();
+	if (hv->explain != NULL)
+		hv->explain();
 	else
-		printf("Hypervisor: %s\n", impl->hv_name);
+		printf("Hypervisor: %s\n", hv->hv_name);
 
 	return EXIT_FAILURE;
 }
