@@ -1,6 +1,9 @@
 static bool openvz_check(void)
 {
-	if (!access("/proc/vz/aquota", R_OK))
+	if (!access("/proc/vz/vzaquota", R_OK))
+		return true;
+
+	if (!access("/proc/user_beancounters", R_OK))
 		return true;
 
 	return false;
