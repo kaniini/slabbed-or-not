@@ -48,6 +48,7 @@ struct test_impl *test_impls[] = {
 	&vmware_impl,
 	&hyperv_impl,
 	&kvm_impl,
+	&bhyve_impl,
 };
 
 static struct test_impl *do_checks(void)
