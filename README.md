@@ -23,11 +23,11 @@ in a hypervisor, or whether both aspects apply (container inside hypervisor).
 
 ## usage
 
-Just download the source and go, basically.  You'll need GCC installed, of course.
+Just download the source and go, basically.  You'll need a compiler installed, of course.
 
 ```shell
 kaniini@localhost ~/slabbed-or-not> make
-gcc -o slabbed-or-not slabbed-or-not.c
+cc -o slabbed-or-not slabbed-or-not.c
 kaniini@localhost ~/slabbed-or-not> ./slabbed-or-not
 Container: OpenVZ
 Hypervisor: Xen PV
