@@ -8,7 +8,7 @@
 #define VMWARE_MAX_DEVICES		50
 
 #define VMWARE_PORT(cmd, eax, ebx, ecx, edx)                            \
-        __asm__("inl (%%dx)" :                                          \
+        __asm__("inl %%dx, %%eax" :                                     \
                         "=a"(eax), "=c"(ecx), "=d"(edx), "=b"(ebx) :    \
                         "0"(VMWARE_HYPERVISOR_MAGIC),                   \
                         "1"(VMWARE_PORT_CMD_##cmd),                     \
